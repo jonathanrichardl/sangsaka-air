@@ -73,12 +73,6 @@ public abstract class Aircraft {
     public void setType(String type) {
         this.type = type;
     }
-
-
-
-
-
-
-
+    
 
 }

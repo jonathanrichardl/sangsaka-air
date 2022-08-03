@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Flight {
-    String origin;
+    private String origin;
 
     public String getOrigin() {
         return origin;
@@ -29,8 +29,18 @@ public class Flight {
         this.fltNo = fltNo;
     }
 
-    String destination;
-    String fltNo;
+    private String destination;
+    private String fltNo;
+
+    public double getFee() {
+        return fee;
+    }
+
+    public void setFee(double fee) {
+        this.fee = fee;
+    }
+
+    private double fee;
 
     public Aircraft getAircraft() {
         return aircraft;
@@ -50,6 +60,16 @@ public class Flight {
         Random rand = new Random(System.currentTimeMillis());
         setFltNo("SN " + Integer.toString(rand.nextInt(999) + 1));
         setAircraft(aircraft);
+        setFee(route.getFee());
+    }
+
+    public boolean addPassengers(String name) {
+        if(this.passengers.size() >= this.aircraft.getCapacity()){
+            return false;
+        }
+        this.passengers.add(name);
+        return true;
+
     }
 
     private boolean checkCapability(Route route, Aircraft aircraft){

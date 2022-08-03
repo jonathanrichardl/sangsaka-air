@@ -41,4 +41,8 @@ public class SangsakaAdminUtil {
         flightList.add(newFlight);
         aircraft.setAssigned(true);
     }
+
+    public static void bookFlight(Flight flight, String name){
+        flight.getPassengers().add(name);
+    }
 }

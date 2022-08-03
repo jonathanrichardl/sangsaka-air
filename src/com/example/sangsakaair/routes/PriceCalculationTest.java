@@ -12,6 +12,5 @@ public class PriceCalculationTest {
         double distance = DistanceMeasurer.distance(origin, destination);
         long price = PriceCalculation.calculatePrice(distance, false);
         assert Math.abs(400000 - price) <= 20000;
-
     }
 }

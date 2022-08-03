@@ -31,7 +31,21 @@ public class SangsakaAir {
     private static ArrayList<Aircraft> aircraftList = new ArrayList<Aircraft>();
     private static ArrayList<Route> routeList = new ArrayList<Route>();
     private static ArrayList<Flight> flightList = new ArrayList<Flight>();
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
+        while (true){
+            try {
+                mainMenu();
+            }
+            catch (Exception e){
+                System.out.println(e);
+                continue;
+            }
+        }
+
+
+    }
+
+    private static void mainMenu() throws Exception {
         Scanner scan = new Scanner(System.in);
         System.out.println("Welcome to Sangsaka Air App!");
         System.out.println("1. Admin App");
@@ -47,7 +61,6 @@ public class SangsakaAir {
             default:
                 throw new Exception("Invalid Input");
         }
-
     }
 
     private static void admin() throws Exception{
@@ -71,13 +84,28 @@ public class SangsakaAir {
                 seeFlightDetails();
                 break;
             default:
+                admin();
                 return;
 
         }
 
     }
 
-    private static void user(){
+    private static void user() throws Exception{
+        Scanner scan = new Scanner(System.in);
+        System.out.println("What do you wanna do!");
+        System.out.println("1. Book a Flight");
+        System.out.println("Enter Input: ");
+        String choice = scan.nextLine();
+        switch (choice) {
+            case "1":
+                bookAFlight();
+                break;
+            default:
+                break;
+
+        }
+        mainMenu();
 
     }
 
@@ -91,7 +119,7 @@ public class SangsakaAir {
         SangsakaAdminUtil.registerAircraft(aircraftList, choice, registration);
         System.out.println(String.format("Aircraft %s has been added", registration));
         scan.nextLine();
-        admin();
+        mainMenu();
     }
 
     private static void generateRoutes() throws Exception{
@@ -105,7 +133,7 @@ public class SangsakaAir {
         SangsakaAdminUtil.generateRoute(routeList, origin, destination);
         System.out.println(String.format("Route %s-%s has been added", origin, destination));
         scan.nextLine();
-        admin();
+        mainMenu();
     }
 
     private static void assignPlaneToRoute() throws Exception{
@@ -127,10 +155,10 @@ public class SangsakaAir {
             int route = Integer.parseInt(scan.nextLine());
             SangsakaAdminUtil.generateFlight(flightList, plane, routeList.get(route-1));
         }
-        admin();
+        mainMenu();
     }
 
-    public static void seeFlightDetails() throws Exception{
+    private static void seeFlightDetails() throws Exception{
         int count = 1;
         for(Flight flight : flightList){
             String message = String.format("%d. FLT-NO: %s \t Registration: %s \t Origin : %s \t Destination : %s",
@@ -147,7 +175,35 @@ public class SangsakaAir {
         }
         Scanner scan = new Scanner(System.in);
         scan.nextLine();
-        admin();
+        mainMenu();
+
+    }
+
+    private static void bookAFlight() throws Exception{
+        Scanner scan = new Scanner(System.in);
+        int count = 1;
+        for(Flight flight : flightList) {
+            String message = String.format("%d. FLT-NO: %s \t Registration: %s \t Origin : %s \t Destination : %s \t Price : %f",
+                    count, flight.getFltNo(),
+                    flight.getAircraft().getRegistration(),
+                    flight.getOrigin(), flight.getDestination(),
+                    flight.getFee());
+            System.out.println(message);
+        }
+        System.out.print("Enter Flight to book: ");
+        int choice = Integer.parseInt(scan.nextLine());
+        Flight chosen = flightList.get(choice-1);
+        System.out.println();
+        System.out.print("Enter pax Name: ");
+        String paxName = scan.nextLine();
+        System.out.println();
+        if(chosen.addPassengers(paxName)){
+            System.out.println(String.format("Passenger %s has been added to flight %s", paxName, chosen.getFltNo()));
+        }
+        else{
+            System.out.println("Plane is Full!");
+        }
+        scan.nextLine();
 
     }
 

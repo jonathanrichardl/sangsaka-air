@@ -28,7 +28,16 @@ public class Route {
     }
 
     private double distance;
-    long fee;
+
+    public long getFee() {
+        return fee;
+    }
+
+    public void setFee(long fee) {
+        this.fee = fee;
+    }
+
+    private long fee;
     boolean international;
     public Route(String originIata, String destinationIata) throws Exception{
         try{
